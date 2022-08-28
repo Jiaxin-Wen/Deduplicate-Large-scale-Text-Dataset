@@ -39,7 +39,7 @@ We provide a toy script `test_minhash.py` for users to conduct case study on you
 
 You can directly run the whole deduplication pipeline with 
 
-```bash
+```none
 bash scripts/deduplicate_pipeline.sh
 
 main arguments:
