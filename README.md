@@ -25,7 +25,7 @@ We also support several interesting features including:
 
 #### Data Format
 
-txt file, one sentence per line
+txt file, one document per line
 
 #### Determine the hyperparameter settings for your own dataset
 
