@@ -47,21 +47,6 @@ def main(args):
         else:
             neighbour_set = [data[idx] for idx in res]
             duplicate_data.append((data[i], neighbour_set))
-            # 在这里检查太慢了 先跑完一遍粗筛吧
-            # flags = []
-            # for idx in res:
-            #     tmp = response_list[idx]
-            #     if recheck(text, tmp, K, threshold):
-            #         duplicate_data.append((text,tmp))
-            #         flags.append(False)
-            #     else: # 是误判, 不算重复
-            #         false_data.append((text,tmp))
-            #         flags.append(True)
-            
-            # if not any(flags): # 没有任何重复
-            #     save_idx.append(i)
-            #     lsh.insert(i, m)
-            
 
     print('deduplicated size = ', len(save_idx))
     print('duplicate size = ', len(duplicate_data))
