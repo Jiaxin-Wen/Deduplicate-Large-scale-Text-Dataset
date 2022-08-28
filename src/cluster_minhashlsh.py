@@ -22,8 +22,6 @@ def main(args):
     with open(args.in_file, 'r') as f:
         for i in f:
            data.append(i.strip())
-           
-    data = data[:5000]
     total_size = len(data)
     
     text_list = [i.split('\t')[-1] for i in data]
@@ -32,7 +30,6 @@ def main(args):
     print('total size = ', total_size)
 
     # build MinHash
-    # TODO: parallel一下吧
     hash_list = []
     for text in tqdm(text_list):
         hash_list.append(get_minhash(text, args.k))

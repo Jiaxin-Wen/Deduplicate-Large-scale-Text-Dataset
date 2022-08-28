@@ -1,8 +1,9 @@
 SHELL_SCRIPT_DIR="$( dirname "$0"  )"
-PROJECT_DIR=$SHELL_SCRIPT_DIR/../..
+WORKING_DIR=$SHELL_SCRIPT_DIR/../..
 
-IN_FILE=/data/wenjiaxin/dataset/eva/eva_data_60g_subset_10w.txt
-OUTPUT_DIR=${PROJECT_DIR}/results/debug_cluster
+LANG=zh
+IN_FILE=${WORKING_DIR}/data/test/deduplicate_exact.txt
+OUTPUT_DIR=${WORKING_DIR}/data/test
 K=2
 THRESHOLD=0.5
 
