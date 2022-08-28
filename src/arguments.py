@@ -11,9 +11,13 @@ def get_args():
     
     # similarity
     parser.add_argument("--k", type=int, default=2, help='k shingles')
-    parser.add_argument("--threshold", type=float, default=0.5, help='threshold for simlilarity')
+    parser.add_argument("--threshold", type=float, default=0.5, help='lower bound on similarity for determining duplication')
+    
+    parser.add_argument("--lsh", action='store_true', help='whether use Local Sensitive Hashing (LSH) to speedup')
+    
     parser.add_argument("--num_perm", type=int, default=128, help='num_perm for MinHashLSH')
     parser.add_argument("--short_length_bound", type=int, default=10, help='specially use k=1 to calculate minhash for texts whose length are less than short_length_bound')
+    
     
     args = parser.parse_args()
     

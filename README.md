@@ -76,6 +76,7 @@ main arguments:
 - IN_FILE: dataset path
 - K: int, K-shingles, used for calculating similarity
 - THRESHOLD: float in range(0,1), lower bound on similarity for determining duplication  
+- lsh: whether use LSH to speedup
 ```
 
 ### References

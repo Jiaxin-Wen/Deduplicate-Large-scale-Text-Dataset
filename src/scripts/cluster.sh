@@ -11,4 +11,5 @@ python cluster_minhashlsh.py \
     --in_file $IN_FILE \
     --output_dir $OUTPUT_DIR \
     --k $K \
-    --threshold $THRESHOLD
+    --threshold $THRESHOLD \
+    --lsh

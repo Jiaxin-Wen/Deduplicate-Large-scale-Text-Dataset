@@ -1,5 +1,5 @@
 from tqdm import tqdm
-from datasketch import MinHash
+from datasketch import MinHash, MinHashLSH
 import os
 
 LANGUAGE = os.environ.get("LANG", "en")
@@ -28,16 +28,40 @@ def get_minhash(text, k):
     return m
 
 
-def pairwise_search(data, threshold):
+def search(text_list, args):
+    '''
+    search similar text
+    '''
     # TODO: support parallel
+    # build MinHash
+    data = []
+    for text in tqdm(text_list):
+        data.append(get_minhash(text, args.k))
+
     size = len(data)
-
     res = []
-
     for i in tqdm(range(size)):
         for j in range(i+1, size):
             score = data[i].jaccard(data[j])
-            if score >= threshold:
-                res.append((i,j,score))
-    print('similar size = ', len(res))
+            if score >= args.threshold:
+                res.append((i,j))
+    return res
+
+
+def search_lsh(data, args):
+    '''
+    search similar text with lsh
+    '''
+    res = []
+    
+    lsh = MinHashLSH(threshold=args.threshold, num_perm=args.num_perm)
+    
+    for i, text in tqdm(enumerate(data)):
+        m = get_minhash(text, k=args.k)
+        neighbor_ids = lsh.query(m)
+        lsh.insert(i, m)
+        if any(neighbor_ids):
+            for j in neighbor_ids:
+                res.append((i, j))
+
     return res

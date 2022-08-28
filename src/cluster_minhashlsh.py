@@ -12,7 +12,7 @@ import os
 import argparse
 
 
-from utils import get_minhash, pairwise_search
+from utils import get_minhash, pairwise_search, pairwise_search_lsh
 from arguments import get_args
 
 
@@ -22,6 +22,8 @@ def main(args):
     with open(args.in_file, 'r') as f:
         for i in f:
            data.append(i.strip())
+           
+    data = data[:5000]
     total_size = len(data)
     
     text_list = [i.split('\t')[-1] for i in data]
@@ -29,19 +31,16 @@ def main(args):
     print('text example = ', text_list[0])
     print('total size = ', total_size)
 
-    # build MinHash
-    hash_list = []
-    for text in tqdm(text_list):
-        hash_list.append(get_minhash(text, args.k))
-
     threshold = args.threshold
 
-    # calculate similarity based on MinHash
+    # search based on MinHash
     start = time.time()
-    similarity = pairwise_search(hash_list, threshold=threshold)
+    if args.lsh:
+        search_res = pairwise_search_lsh(text_list, args)
+    else:
+        search_res = pairwise_search(text_list, args)
     end = time.time()
-    print('calculate similarity time cost = ', end - start)
-
+    print('find neighbor, time cost = ', end - start)
 
     # cluster
     start = time.time()
@@ -49,30 +48,24 @@ def main(args):
     for i in range(total_size):
         ds.find(i)
 
-    score_res = []
-    for item in tqdm(similarity):
-        id1, id2, score = item
-        text1 = data[id1].split('\t')[-1]
-        text2 = data[id2].split('\t')[-1]
-        score_res.append([text1 + "|||" + text2, score])
+    for item in tqdm(search_res):
+        id1, id2 = item
         ds.union(id1, id2)
     end = time.time()
     print("cluster time cost = ", end - start)
 
-
     cluster_data = []
-    for similar_set in tqdm(ds.itersets()):
-        if len(similar_set) > 1:
+    for cluster_set in tqdm(ds.itersets()):
+        if len(cluster_set) > 1:
             cluster = []
-            for i in similar_set:
+            for i in cluster_set:
                 cluster.append(data[i])
             cluster_data.append(cluster)
+    
+    cluster_data.sort(key=lambda x: len(x), reverse=True)
 
-    with open(f"{args.output_dir}/cluster_{threshold}.json", 'w') as f:
+    with open(f"{args.output_dir}/cluster_threshold{threshold}_lsh{args.lsh}.json", 'w') as f:
         json.dump(cluster_data, f, indent=2, ensure_ascii=False)
-
-    with open(f'{args.output_dir}/score_{threshold}.json', 'w') as f:
-        json.dump(score_res, f, indent=2, ensure_ascii=False)
 
 
 if __name__ == "__main__":
