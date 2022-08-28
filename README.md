@@ -67,7 +67,16 @@ For interested users, the entire deduplication pipeline has the following three 
 
 ### 2. Cluster
 
-`bash scripts/cluster.sh`
+
+```none
+bash scripts/cluster.sh
+
+main arguments:
+- LANG: the language of your dataset which determines the tokenization method, we currently support ['zh', 'en'] 
+- IN_FILE: dataset path
+- K: int, K-shingles, used for calculating similarity
+- THRESHOLD: float in range(0,1), lower bound on similarity for determining duplication  
+```
 
 ### References
 
