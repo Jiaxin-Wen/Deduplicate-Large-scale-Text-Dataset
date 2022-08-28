@@ -63,8 +63,6 @@ For interested users, the entire deduplication pipeline has the following three 
 
 - step3: recall false positives caused by the approximation of MinHashLSH
 
-`bash scripts/postprocess
-
 `bash scripts/deduplicate_postprocess.sh`
 
 ### 2. Cluster
