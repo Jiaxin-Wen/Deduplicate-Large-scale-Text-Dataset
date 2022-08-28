@@ -7,7 +7,7 @@ Training on repeated data would impair the performance of language models as the
 However, large-scale web-crawled dataset often contain a significant number of duplicate texts.
 
 Therefore, we aim to implement an efficient and easy-to-use system for deduplicating large-scale text dataset based on Python. Here are several highlights of this project:
-- [x] support efficient deduplicating based on MinHashLSH, which achieves a sub-linear query cost
+- [x] support efficient similarity search based on MinHashLSH, which achieves a sub-linear query cost
 - [ ] speedup the load/save of large files based on datasets
 - [ ] support multiprocessing
 
